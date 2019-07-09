@@ -1,11 +1,12 @@
 {
   "name": "to-do-list",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "",
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
+    "release": "node .electron-vue/build.js && electron-builder",
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
@@ -16,7 +17,10 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "postinstall": "npm run lint:fix"
+    "postinstall": "npm run lint:fix",
+    "patch": "npm version patch && git push origin master && git push origin --tags",
+    "minor": "npm version minor && git push origin master && git push origin --tags",
+    "major": "npm version major && git push origin master && git push origin --tags"
   },
   "build": {
     "productName": "To-do-list",
