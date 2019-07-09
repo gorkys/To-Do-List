@@ -1,0 +1,17 @@
+.el-date-picker{
+  width: 300px!important;
+  .el-picker-panel__body{
+    .el-date-picker__header {
+      margin: 2px auto!important;
+    }
+    .el-picker-panel__content{
+      margin: 2px auto!important;
+      .el-date-table th{
+        padding: 0!important;
+      }
+      .el-date-table td{
+        padding: 0!important;
+      }
+    }
+  }
+}
