@@ -40,7 +40,7 @@
 
 遇到的一些问题可以参考我踩过的坑，[Electron-vue开发实战之To-do-List](http://tingtas.com/posts/7bca46d1)
 
-##开发模式
+## 开发模式
 输入npm run dev进入开发模式，开发模式具有热重载特性。不过需要注意的是，开发模式不稳定，会有进程崩溃的情况。此时需要：
 ```base
 ctrl+c # 退出开发模式
