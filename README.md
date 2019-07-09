@@ -71,4 +71,4 @@ npm run build
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2017 - 2019 Molunerfinn
+Copyright (c) 2017 - 2019 Gorkys
