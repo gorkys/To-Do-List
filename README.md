@@ -6,6 +6,9 @@
   <img src="https://cdn.jsdelivr.net/gh/gorkys/CDN-Blog@master/blog/image/To-Do-List/logo.png" alt="">
 </p>
 
+## 下载
+[点击进入下载页面](https://github.com/gorkys/To-Do-List/releases)
+
 ## 应用说明
 项目功能：
 
