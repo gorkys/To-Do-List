@@ -1,6 +1,7 @@
 'use strict'
 import pkg from '../../package.json'
 import '../renderer/store'
+import updateChecker from './utils/updateChecker'
 import {
   app,
   Menu,
@@ -189,6 +190,7 @@ ipcMain.on('openWindow', (evt) => {
 app.on('ready', () => {
   createWindow()
   createTray()
+  updateChecker()
 })
 
 app.on('window-all-closed', () => {
