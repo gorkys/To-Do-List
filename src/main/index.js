@@ -47,6 +47,9 @@ const createWindow = () => {
       backgroundThrottling: false
     }
   }
+  // 开发环境下可以调整窗口大小
+  process.env.NODE_ENV === 'developent' ? options.resizable = false : options.resizable = true
+
   if (process.platform !== 'darwin') {
     options.show = true
     options.frame = false
@@ -86,6 +89,8 @@ const createMiniWidow = () => {
       nodeIntegrationInWorker: true
     }
   }
+  // 开发环境下可以调整窗口大小
+  process.env.NODE_ENV === 'developent' ? obj.resizable = false : obj.resizable = true
 
   miniWindow = new BrowserWindow(obj)
 
@@ -105,16 +110,7 @@ function createTray () {
     {
       label: '打开详细窗口',
       click () {
-        if (window === null) {
-          createWindow()
-          window.show()
-        } else {
-          window.show()
-          window.focus()
-        }
-        if (miniWindow) {
-          miniWindow.hide()
-        }
+        openWindow()
       }
     },
     {
@@ -150,18 +146,7 @@ function createTray () {
     tray.popUpContextMenu(menu) // 打开菜单
   })
   tray.on('click', (event, bounds) => {
-    if (window) {
-      window.hide()
-    }
-    if (window === null) {
-      createWindow()
-      window.show()
-      miniWindow.hide()
-    } else {
-      window.show()
-      window.focus()
-      miniWindow.hide()
-    }
+    openWindow()
   })
 }
 // 设置appId
@@ -169,13 +154,31 @@ if (process.platform === 'win32') {
   app.setAppUserModelId(pkg.build.appId)
 }
 
+function openWindow () {
+  if (window === null) {
+    createWindow()
+    window.show()
+  } else {
+    window.show()
+    window.focus()
+  }
+  if (miniWindow) {
+    miniWindow.hide()
+  }
+}
+
+// mini窗口新建的数据更新，发送给主窗口
+ipcMain.on('updateData', () => {
+  window.webContents.send('updateData')
+})
+
 ipcMain.on('openMiniWindow', (evt) => {
   if (!miniWindow) {
     createMiniWidow()
   }
   miniWindow.show()
   miniWindow.focus()
-  window.close()
+  window.hide()
 })
 
 ipcMain.on('openWindow', (evt) => {

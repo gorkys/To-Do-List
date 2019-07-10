@@ -97,6 +97,7 @@
         // 日程检测
         timeDetection()
         this.clipboardNew()
+        this.updateData()
       },
       data () {
         return {
@@ -210,6 +211,11 @@
 
           this.listData = this.$db.get('ListData').value()
           this.calcPercentage(this.listData)
+        },
+        updateData () {
+          this.$electron.ipcRenderer.on('updateData', () => {
+            this.listData = this.$db.read().get('ListData').value()
+          })
         }
       },
       watch: {}

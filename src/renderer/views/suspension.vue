@@ -1,12 +1,15 @@
 <template>
     <div id="suspension"
-         @dblclick="clipboardNew">
-        <el-progress class="progress"
-                     :percentage="progress"
-                     :text-inside="true"
-                     :show-text="false"
-                     :stroke-width="70">
-        </el-progress>
+         @drop.prevent="dragover = false"
+         @dragover.prevent="dragover = true"
+         @dragleave.prevent="dragover = false">
+        <div class="progress-bar-logo">
+            <img src="../assets/logo.png" style="width: 40px;height:40px;" alt="">
+        </div>
+        <div class="progress">
+            <div class="progress-bar-1" :style="{bottom:`${progress}%`}"></div>
+            <div class="progress-bar-2" :style="{bottom:`${progress-5}%`}"></div>
+        </div>
     </div>
 </template>
 
@@ -69,14 +72,14 @@
       handleMouseUp (e) {
         this.dragging = false
         if (this.screenX === e.screenX && this.screenY === e.screenY) {
-          if (e.button === 0) { // left mouse
-          } else {
+          if (e.button === 0) { // 左0 中1 右2
+            this.clipboardNew()
           }
         }
       },
       clipboardNew () {
         let text = clipboard.readText()
-        let repeat = this.$db.get('ListData').value().find(item => {
+        let repeat = this.$db.read().get('ListData').value().find(item => {
           return item.content === text
         })
         if (repeat === undefined) {
@@ -89,7 +92,9 @@
             body: '新建成功'
           })
           notepad.onclick = () => { return true }
-          this.calcPercentage(this.$db.get('ListData').value())
+          this.calcPercentage(this.$db.read().get('ListData').value())
+
+          this.$electron.ipcRenderer.send('updateData')
         } else {
           let notepad = new window.Notification('提示', {
             body: '事项已存在'
@@ -108,22 +113,60 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .progress{
-        border-radius: 50%;
-        transform:rotate(270deg);
+        position: relative;
+        align-items: center;
         width: 70px;
-        /deep/ .el-progress-bar__outer{
-            border-radius: 50%;
-            .el-progress-bar__inner {
-                border-radius: 0;
-                background-color: #8EC5FC;
-                background-image: linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
-                background-image: -webkit-linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
-            }
+        height: 70px;
+        border-radius: 50%;
+        background-color: #8EC5FC;
+        background-image: linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
+        background-image: -webkit-linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
+        overflow: hidden;
+        .progress-bar-1, .progress-bar-2 {
+            position: absolute;
+            left: 50%;
+            min-width: 300px;
+            min-height: 300px;
+            background-color: #e4e7ee;
+            animation-name: rotate;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            transition: bottom 2s;
+        }
+
+        .progress-bar-1 {
+            border-radius: 45%;
+            animation-duration: 8s;
+        }
+
+        .progress-bar-2 {
+            opacity: .5;
+            border-radius: 47%;
+            animation-duration: 8s;
         }
     }
+
+    .progress-bar-logo{
+        position: fixed;
+        left: 15px;
+        top: 15px;
+        z-index: 10;
+        opacity: .9;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: translate(-50%, 0) rotateZ(0deg);
+        }
+        50% {
+            transform: translate(-50%, -2%) rotateZ(180deg);
+        }
+        100% {
+            transform: translate(-50%, 0%) rotateZ(360deg);
+        }
+    }
+
     #suspension {
         cursor: pointer;
-        height: 80px;
-        border-radius: 5px;
     }
 </style>
