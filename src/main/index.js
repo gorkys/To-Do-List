@@ -47,8 +47,6 @@ const createWindow = () => {
       backgroundThrottling: false
     }
   }
-  // 开发环境下可以调整窗口大小
-  process.env.NODE_ENV === 'developent' ? options.resizable = false : options.resizable = true
 
   if (process.platform !== 'darwin') {
     options.show = true
@@ -89,8 +87,6 @@ const createMiniWidow = () => {
       nodeIntegrationInWorker: true
     }
   }
-  // 开发环境下可以调整窗口大小
-  process.env.NODE_ENV === 'developent' ? obj.resizable = false : obj.resizable = true
 
   miniWindow = new BrowserWindow(obj)
 
