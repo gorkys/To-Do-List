@@ -23,7 +23,7 @@
         </ul>
         <div class="hidden" v-if="hiddenButton" @click="hiddenDo=!hiddenDo">
             <i :class="hiddenDo?'el-icon-arrow-up':'el-icon-arrow-down'"></i>
-            <span>{{hiddenDo?'隐藏':'显示'}}已完成待办</span>
+            <span>{{hiddenDo?'隐藏':'显示'}}已完成待办 · {{completedNumber}}</span>
         </div>
         <transition name="el-zoom-in-center">
             <ul id="doList" v-show="hiddenDo">
@@ -116,6 +116,12 @@
             return item.type === 'do'
           })
           return doData.length !== 0
+        },
+        completedNumber () {
+          const doNumber = this.listData.filter(item => {
+            return item.type === 'do'
+          })
+          return doNumber.length
         }
       },
       methods: {
@@ -328,14 +334,13 @@
         text-align: center;
         cursor: pointer;
         border-radius: 5px;
-        transition: all 1s ease-in-out;
-        -webkit-transition: all 1s ease-in-out;
+        transition: all .5s ease-in-out;
+        -webkit-transition: all .5s ease-in-out;
         background-color: #8EC5FC;
-        background-image: linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
-        background-image: -webkit-linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
+        background-image: linear-gradient(135deg,#E0C3FC 24%,#8EC5FC 75%);
+        background-image: -webkit-linear-gradient(135deg,#E0C3FC 24%,#8EC5FC 75%);
         &:hover{
             background-position:200px;
-            color: #464646;
         }
         span{
             margin-left: 5px;
@@ -347,8 +352,8 @@
     #new{
         position: fixed;
         background-color: #8BC6EC;
-        background-image: linear-gradient(194deg,#8BC6EC 0%,#9599E2 100%);
-        background-image: -webkit-linear-gradient(194deg,#8BC6EC 0%,#9599E2 100%);
+        background-image: linear-gradient(135deg,#9599E2 24%,#8BC6EC 75%);
+        background-image: -webkit-linear-gradient(135deg,#9599E2 24%,#8BC6EC 75%);
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -364,7 +369,7 @@
         bottom: 20px;
         transition: all 1s;
         &:hover{
-            color: #f9027c;
+            color: #E0C3FC;
         }
     }
     /deep/ .el-textarea{

@@ -118,11 +118,6 @@ function createTray () {
             window.webContents.send('clipboardText', text)
           }, 0)
         }
-        /* const test = new Notification({
-          title: '提示',
-          body: text
-        })
-        test.show() */
       }
     }, {
       label: '重启应用',

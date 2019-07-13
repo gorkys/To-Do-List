@@ -55,8 +55,8 @@
             .el-progress-bar__inner {
                 border-radius: 2px;
                 background-color: #8EC5FC;
-                background-image: linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
-                background-image: -webkit-linear-gradient(177deg,#E0C3FC 24%,#8EC5FC 75%);
+                background-image: linear-gradient(135deg,#E0C3FC 24%,#8EC5FC 75%);
+                background-image: -webkit-linear-gradient(135deg,#E0C3FC 24%,#8EC5FC 75%);
             }
         }
     }
